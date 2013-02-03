@@ -82,10 +82,16 @@ let g:tex_flavor='latex'
 let g:Tex_ViewRuleComplete_pdf = 'open $*.pdf'
 
 " remap command-T keys
-let g:CommandTAcceptSelectionMap='<C-CR>'
-let g:CommandTAcceptSelectionSplitMap='<S-C-CR>'
-let g:CommandTAcceptSelectionVSplitMap='<CR>'
+let g:CommandTAcceptSelectionMap = '<C-CR>'
+let g:CommandTAcceptSelectionSplitMap = '<S-C-CR>'
+let g:CommandTAcceptSelectionVSplitMap = '<CR>'
 
+" remap UltiSnips keys
+let g:UltiSnipsExpandTrigger = '<A-Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<A-Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-A-Tab>'
+let g:UltiSnipsListSnippets = '<C-j>'
+let g:UltiSnipsEditSplit = 'vertical'
 
 " make two new lines and move cursor up one in normal mode
 nmap <Leader>o o<Enter><Esc>ki
