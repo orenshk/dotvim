@@ -1,0 +1,56 @@
+snippet `` "Literal"
+\`\`${1:literal}\`\`$0
+endsnippet
+
+snippet * "italics" 
+*${1:text}*$0
+endsnippet
+
+snippet *b "bold"
+**${1:text}**$0
+endsnippet
+
+snippet Title "Page Title" !b
+${1:section_title}
+`!p snip.rv = len(t[1]) * '='`
+
+$0
+endsnippet
+
+snippet sec "Section" !b
+${1:section_title}
+`!p snip.rv = len(t[1]) * '-'`
+
+$0
+endsnippet
+
+snippet im "image block" !b
+.. image:: ${1:imageName}
+    :scale: ${2:num}%
+    :alt: ${3:alt text}
+    :align: ${4:left|center|right}
+
+$0
+endsnippet
+
+##################
+# role keywords  #
+##################
+snippet :m ":math:"
+:math:\`${1:latex}\`
+endsnippet
+
+snippet :t ":term:"
+:term:\`${1:term}\`$0
+endsnippet
+
+snippet `l "Link" !
+\`${1:text} <${2:url}>\`_$0
+endsnippet
+
+snippet cb "code-block" !b
+.. code-block:: ${1:lang}
+
+    ${2:source}
+$0
+endsnippet

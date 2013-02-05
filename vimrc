@@ -1,12 +1,26 @@
-" pathogen
-execute pathogen#infect()
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                   stuff put in before I knew anything                   "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Use Vim settings, rather than Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" Make backspace behave in a sane manner.
+set backspace=indent,eol,start
+
+" Switch syntax highlighting on
+syntax on
+
+" Enable file type detection and do language-dependent indenting.
+filetype plugin indent on
+
 
 " swap and backup files
 set backupdir=/Users/orenshklarsky/Documents/auto_saves_and_baks,.,/tmp
 set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 
+" General sets
 set smartindent
 set number
 set expandtab
@@ -20,7 +34,10 @@ set spl=en_ca spell
 set ch=2                    " set command line height to 2
 set splitright              " when splitting add new window to the right
 set nowrap                  " don't wrap lines when they go off the edge
+set clipboard+=unnamed      " yanks go to the clipboard as well
+set hidden                  " the current buffer can be switched without writing
 
+" gui stuff
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
@@ -33,16 +50,26 @@ endif
 " set <Leader> to ,
 let mapleader = ","
 
+" better escape
+imap jj <esc>
+cmap jj <esc>
+
 " try no arrows for a while
 map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
 
-" editing and sourcing .vimrc
-nmap <silent> <leader>ev :vsp $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
 
+" editing and sourcing .vimrc
+nmap <leader>ev :vsp $MYVIMRC<CR>
+nmap <leader>sv :so $MYVIMRC<CR>
+
+" semi-colon command mode
 nnoremap ; :
 
 " vertical help
@@ -58,54 +85,22 @@ inoremap {}   {}
 " Parentheses autocomplete
 inoremap (    ()<Left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-inoremap <expr> <Tab> strpart(getline('.'), col('.')-1, 1) == ")" ? 
-                                                      \"\<Right>" : "\<Tab>"
-
-inoremap (<CR> (<Enter>)<Esc>O
+inoremap (<CR> (<CR>)<Esc>O
 inoremap ((   (
 inoremap ()   ()
 
 " Square brackets autocomplete
 inoremap [    []<Left>
 inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
-inoremap [<CR> [<Enter>]<Esc>O
+inoremap [<CR> [<CR>]<Esc>O<Tab>
 inoremap [[   [
 inoremap []   []
 
 " set colorcolumn to highlight 1st and 81st and onwards columns
 let &colorcolumn=join([1] + range(81, 256), ",")
  
-" set tex flavour (needed by vim-latex)
-let g:tex_flavor='latex'
-
-" view pdf using default viewer"
-let g:Tex_ViewRuleComplete_pdf = 'open $*.pdf'
-
-" remap command-T keys
-let g:CommandTAcceptSelectionMap = '<C-CR>'
-let g:CommandTAcceptSelectionSplitMap = '<S-C-CR>'
-let g:CommandTAcceptSelectionVSplitMap = '<CR>'
-
-" remap UltiSnips keys
-let g:UltiSnipsExpandTrigger = '<A-Tab>'
-let g:UltiSnipsJumpForwardTrigger = '<A-Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-A-Tab>'
-let g:UltiSnipsListSnippets = '<C-j>'
-let g:UltiSnipsEditSplit = 'vertical'
-
 " make two new lines and move cursor up one in normal mode
 nmap <Leader>o o<Enter><Esc>ki
-
-" Underline the current line with dashes in normal mode
-nnoremap <F5> yyp<c-v>$r-
-"
-" Underline the current line with equals in insert mode
-inoremap <F5> <Esc>yyp<c-v>$r-A
-" Underline the current line with equals in normal mode
-nnoremap <F6> yyp<c-v>$r=
-
-" Underline the current line with dashes in insert mode
-inoremap <F6> <Esc>yyp<c-v>$r=A
 
 " make switching through splits more like tabbing
 nmap <C-Tab> <C-w>w
@@ -126,38 +121,11 @@ if has("autocmd")
     " Automatic window resizing when external window size changes
     autocmd VimResized * :wincmd =
 
-    " For text and rst files, set 'textwidth' to 78.  
-    autocmd FileType text setlocal textwidth=80
-
-    autocmd FileType rst setlocal textwidth=80
-    autocmd FileType rst imap <Leader><Leader>j .. code-block:: 
-                                                \java<Esc>o<Esc>o<Tab><Tab>
-
-    " Shortcuts for cmpt166 website
-    " Compile and open locally.
-    autocmd FileType rst nmap <C-r> :!/Users/orenshklarsky/Dropbox/SFU/Teaching
-                                      \/CMPT_166_Spring_2013/Website_Source
-                                      \/scripts/compAndOpen %<Enter>
-    
-    autocmd FileType rst imap <C-r> <Esc>:w<Enter>:!/Users/orenshklarsky/Dropbox
-                                      \/SFU/Teaching
-                                      \/CMPT_166_Spring_2013/Website_Source
-                                      \/scripts/compAndOpen %<Enter>i
-
-    " Compile and push changes to website.
-    autocmd FileType rst nmap <C-p> :!/Users/orenshklarsky/Dropbox/SFU/Teaching
-                                      \/CMPT_166_Spring_2013/Website_Source
-                                      \/scripts/push %<Enter><Enter>
-    
-    autocmd BufNewFile,BufRead *.pde nmap <C-R> :w<Enter> 
-                                    \:!/Users/orenshklarsky/Dropbox/SFU/Teaching
-                                    \/CMPT_166_Spring_2013/Website_Source
-                                    \/scripts/loadFileAndRun '%'<Enter><Enter>
-    autocmd BufNewFile,BufRead *.pde imap <C-R> <Esc>:w<Enter> 
-                                    \:!/Users/orenshklarsky/Dropbox/SFU/Teaching
-                                    \/CMPT_166_Spring_2013/Website_Source
-                                    \/scripts/loadFileAndRun '%'<Enter><Enter>i
-
+    autocmd FileType tex let b:editingTex = 'true'
+    autocmd FileType * 
+                     \if !exists("b:editingTex") |
+                            \ let g:pathogen_disabled = ['latex-suite'] |
+                     \ endif
     " When editing a file, always jump to the last known cursor position.
     " Don't do it when the position is invalid or when inside an event handler
     " (happens when dropping a file on gvim).
@@ -169,21 +137,101 @@ if has("autocmd")
             \   exe "normal! g`\"" |
         \ endif
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                           rst and text files                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    " For text and rst files, set 'textwidth' to 80.
+    autocmd FileType text,rst setlocal textwidth=80
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                rst only                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    " Shortcuts for cmpt166 website
+    " Compile and open locally. 
+    autocmd FileType rst nmap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/SFU/
+                                  \Teaching/CMPT_166_Spring_2013/Website_Source/
+                                  \scripts/compAndOpen %<Enter>
+    
+    autocmd FileType rst imap <buffer> <D-r> <Esc>:w<CR>:!/Users
+                                      \/orenshklarsky/Dropbox/SFU/Teaching
+                                      \/CMPT_166_Spring_2013/Website_Source
+                                      \/scripts/compAndOpen %<Enter>i
+
+    " Compile and push changes to website.
+    autocmd FileType rst nmap <buffer> <C-p> :!/Users/orenshklarsky/Dropbox/SFU
+                                      \/Teaching/CMPT_166_Spring_2013/Website_Source
+                                      \/scripts/push %<Enter><Enter>
+    
+    autocmd BufNewFile,BufRead *.pde nmap <buffer> <D-r> :w<CR>:!/Users
+                                    \/orenshklarsky/Dropbox/SFU/Teaching
+                                    \/CMPT_166_Spring_2013/Website_Source
+                                    \/scripts/loadFileAndRun '%'<CR>
+    autocmd BufNewFile,BufRead *.pde imap <buffer> <D-r> <Esc>:w<CR>:!/Users
+                                    \/orenshklarsky/Dropbox/SFU/Teaching
+                                    \/CMPT_166_Spring_2013/Website_Source
+                                    \/scripts/loadFileAndRun '%'<CR>i
+
 endif " has("autocmd")
 
-"==================================================
-" End of stuff added by me
-"================================================== 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                pathogen                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+execute pathogen#infect()
+call pathogen#helptags()
 
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                latex-suite                              "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Make backspace behave in a sane manner.
-set backspace=indent,eol,start
+" set tex flavour (needed by vim-latex)
+let g:tex_flavor='latex'
+
+" view pdf using default viewer
+let g:Tex_ViewRuleComplete_pdf = 'open $*.pdf'
+
+"" latex jump forward to next marker
+"imap <C-right> <Plug>IMAP_JumpForward
+"nmap <C-right> <Plug>IMAP_JumpForward
+"xmap <C-right> <Plug>IMAP_JumpForward
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                supertab                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                CommandT                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" CommandT options 
+let g:CommandTAcceptSelectionMap = '<C-CR>'
+let g:CommandTAcceptSelectionSplitMap = '<S-C-CR>'
+let g:CommandTAcceptSelectionVSplitMap = '<CR>'
+let g:CommandTMaxHeight = 16
+let g:CommandTMinHeight = 16
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                UltiSnips                                "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" remap UltiSnips keys
+let g:UltiSnipsExpandTrigger = '<Tab>'
+"let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+"let g:UltiSnipsJumpBackwardTrigger = '<A-Tab>'
+"let g:UltiSnipsListSnippets = '<S-A-Tab>'
+let g:UltiSnipsEditSplit = 'vertical'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                YankRing                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap "p :YRShow<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                   stuff put in before I knew anything                   "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Switch syntax highlighting on
 syntax on
-
-" Enable file type detection and do language-dependent indenting.
-filetype plugin indent on
