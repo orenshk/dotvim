@@ -1,7 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                   stuff put in before I knew anything                   "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -9,18 +5,19 @@ set nocompatible
 " Make backspace behave in a sane manner.
 set backspace=indent,eol,start
 
-" Switch syntax highlighting on
-syntax on
-
-" Enable file type detection and do language-dependent indenting.
-filetype plugin indent on
-
-
 " swap and backup files
 set backupdir=/Users/orenshklarsky/Documents/auto_saves_and_baks,.,/tmp
 set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 
 " General sets
+set wildmenu               " use wild menu for command completion
+set wildmode=longest:full
+
+set cursorline             " highlight the cursor line
+set ttyfast                " fast "terminal"
+set scrolloff=3        " minimal number of screen lines to keep around cursor
+set ignorecase             " ignore case while searching
+set smartcase              " unless search term has capitals
 set smartindent
 set number
 set expandtab
@@ -29,6 +26,8 @@ set tabstop=4
 set ruler                   " show the cursor position
 set showcmd          
 set incsearch               " do incremental search
+nnoremap <leader><space> :noh<cr>
+
 set grepprg=grep\ -nH\ $*   " grep always generates file name
 set spl=en_ca spell         
 set ch=2                    " set command line height to 2
@@ -69,6 +68,16 @@ imap <right> <nop>
 nmap <leader>ev :vsp $MYVIMRC<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
 
+" open vertical or horizontal split and switch
+nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>h <C-w>s<C-w>j
+
+" Move through splits
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 " semi-colon command mode
 nnoremap ; :
 
@@ -85,6 +94,9 @@ inoremap {}   {}
 " Parentheses autocomplete
 inoremap (    ()<Left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+inoremap <expr> <space> strpart(getline('.'), col('.')-1, 1) == ")" ?
+                                                      \ "\<right>" : "\<space>"
+
 inoremap (<CR> (<CR>)<Esc>O
 inoremap ((   (
 inoremap ()   ()
@@ -111,6 +123,9 @@ if has("autocmd")
     " clear all autocmds
     autocmd!
 
+    " save the file on focus lost.
+    autocmd FocusLost * :wa
+
     " Make backup of vimrc to dropbox after write. Also make a windows
     " version.
     autocmd BufWritePost .vimrc w! /Users/orenshklarsky/Dropbox
@@ -121,11 +136,6 @@ if has("autocmd")
     " Automatic window resizing when external window size changes
     autocmd VimResized * :wincmd =
 
-    autocmd FileType tex let b:editingTex = 'true'
-    autocmd FileType * 
-                     \if !exists("b:editingTex") |
-                            \ let g:pathogen_disabled = ['latex-suite'] |
-                     \ endif
     " When editing a file, always jump to the last known cursor position.
     " Don't do it when the position is invalid or when inside an event handler
     " (happens when dropping a file on gvim).
@@ -181,20 +191,22 @@ endif " has("autocmd")
 execute pathogen#infect()
 call pathogen#helptags()
 
+" Enable file type detection and do language-dependent indenting.
+filetype plugin indent on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                latex-suite                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " set tex flavour (needed by vim-latex)
-let g:tex_flavor='latex'
-
-" view pdf using default viewer
-let g:Tex_ViewRuleComplete_pdf = 'open $*.pdf'
-
-"" latex jump forward to next marker
-"imap <C-right> <Plug>IMAP_JumpForward
-"nmap <C-right> <Plug>IMAP_JumpForward
-"xmap <C-right> <Plug>IMAP_JumpForward
+"let g:tex_flavor='latex'
+"
+"" view pdf using default viewer
+"let g:Tex_ViewRuleComplete_pdf = 'open $*.pdf'
+"
+""" latex jump forward to next marker
+""imap <C-right> <Plug>IMAP_JumpForward
+""nmap <C-right> <Plug>IMAP_JumpForward
+""xmap <C-right> <Plug>IMAP_JumpForward
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                supertab                                 "
@@ -229,6 +241,10 @@ let g:UltiSnipsEditSplit = 'vertical'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap "p :YRShow<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                syntastic                                "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_check_on_open=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                   stuff put in before I knew anything                   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
