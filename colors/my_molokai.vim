@@ -6,6 +6,8 @@
 " by Wimer Hazenberg and its darker variant 
 " by Hamish Stuart Macpherson
 "
+" Modifications by Oren Shklarsky <orenshk@gmail.com>:
+" 1. brighter ColorColumn
 
 hi clear
 
@@ -119,7 +121,8 @@ else
    hi Comment         guifg=#7E8E91
    hi CursorLine                    guibg=#293739
    hi CursorColumn                  guibg=#293739
-   hi ColorColumn                   guibg=#232526
+   "hi ColorColumn                   guibg=#232526
+   hi ColorColumn                   guibg=#2d2d2d 
    hi LineNr          guifg=#465457 guibg=#232526
    hi NonText         guifg=#465457
    hi SpecialKey      guifg=#465457
@@ -213,7 +216,8 @@ if &t_Co > 255
 
    hi Comment         ctermfg=59
    hi CursorColumn                ctermbg=234
-   hi ColorColumn                 ctermbg=234
+   "hi ColorColumn                 ctermbg=234
+   hi ColorColumn                 ctermbg=239 
    hi LineNr          ctermfg=250 ctermbg=234
    hi NonText         ctermfg=59
    hi SpecialKey      ctermfg=59

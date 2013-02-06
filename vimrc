@@ -14,7 +14,6 @@ set wildmenu               " use wild menu for command completion
 set wildmode=longest:full
 
 set cursorline             " highlight the cursor line
-set ttyfast                " fast "terminal"
 set scrolloff=3        " minimal number of screen lines to keep around cursor
 set ignorecase             " ignore case while searching
 set smartcase              " unless search term has capitals
@@ -42,8 +41,17 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
   set mousehide
   
-  set background=dark
-  let colors_name = "mymacvim"
+  " Set system specific font
+  if has("gui_gtk2")
+      :set guifont=Luxi\ Mono\ 12
+  elseif has("gui_win32")
+      :set guifont=Luxi_Mono:h12:cANSI
+  elseif has("gui_macvim")
+      :set guifont=Monaco:h12
+  endif
+
+  " color scheme. molokai sets background=dark. Remember this if you switch.
+  let colors_name = "my_molokai"
 endif
 
 " set <Leader> to ,
@@ -94,9 +102,6 @@ inoremap {}   {}
 " Parentheses autocomplete
 inoremap (    ()<Left>
 inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-inoremap <expr> <space> strpart(getline('.'), col('.')-1, 1) == ")" ?
-                                                      \ "\<right>" : "\<space>"
-
 inoremap (<CR> (<CR>)<Esc>O
 inoremap ((   (
 inoremap ()   ()
