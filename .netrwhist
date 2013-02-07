@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/opt/local/var/macports/build/_opt_local_var_macports_sources_rsync.macports.org_release_tarballs_ports_aqua_qt4-mac/qt4-mac/work/qt-everywhere-opensource-src-4.8.2/src/3rdparty/webkit/Source/WebKit/qt'
-let g:netrw_dirhist_2='/usr/bin'
-let g:netrw_dirhist_3='/Users/orenshklarsky/Dropbox/SFU/Teaching/CMPT_166_Spring_2013/Website_Source/scripts'
