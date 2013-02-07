@@ -12,9 +12,12 @@ set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 " General sets
 set wildmenu               " use wild menu for command completion
 set wildmode=longest:full
+set list
+set listchars=tab:▻▻
 
+set laststatus=2           " always show status line
 set cursorline             " highlight the cursor line
-set scrolloff=3        " minimal number of screen lines to keep around cursor
+set scrolloff=3            " min number of screen lines to keep around cursor
 set ignorecase             " ignore case while searching
 set smartcase              " unless search term has capitals
 set smartindent
@@ -23,24 +26,22 @@ set expandtab
 set shiftwidth=4
 set tabstop=4
 set ruler                   " show the cursor position
-set showcmd          
+set showcmd
 set incsearch               " do incremental search
-nnoremap <leader><space> :noh<cr>
 
 set grepprg=grep\ -nH\ $*   " grep always generates file name
-set spl=en_ca spell         
+set spl=en_ca spell
 set ch=2                    " set command line height to 2
 set splitright              " when splitting add new window to the right
 set nowrap                  " don't wrap lines when they go off the edge
 set clipboard+=unnamed      " yanks go to the clipboard as well
-set hidden                  " the current buffer can be switched without writing
 
 " gui stuff
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
   set mousehide
-  
+
   " Set system specific font
   if has("gui_gtk2")
       :set guifont=Luxi\ Mono\ 12
@@ -58,7 +59,7 @@ endif
 let mapleader = ","
 
 " better escape
-imap jj <esc>
+imap jk <esc>
 cmap jj <esc>
 
 " try no arrows for a while
@@ -77,8 +78,8 @@ nmap <leader>ev :vsp $MYVIMRC<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
 
 " open vertical or horizontal split and switch
-nnoremap <leader>v <C-w>v<C-w>l
-nnoremap <leader>h <C-w>s<C-w>j
+nnoremap <leader>v :vne<CR>
+nnoremap <leader>h <C-w>n
 
 " Move through splits
 nnoremap <C-h> <C-w>h
@@ -90,7 +91,7 @@ nnoremap <C-l> <C-w>l
 nnoremap ; :
 
 " vertical help
-cmap vh vert help 
+cmap vh vert help
 
 " Braces autocomplete
 inoremap {    {}<Left>
@@ -114,8 +115,8 @@ inoremap [[   [
 inoremap []   []
 
 " set colorcolumn to highlight 1st and 81st and onwards columns
-let &colorcolumn=join([1] + range(81, 256), ",")
- 
+let &colorcolumn=join([1] + range(80, 256), ",")
+
 " make two new lines and move cursor up one in normal mode
 nmap <Leader>o o<Enter><Esc>ki
 
@@ -123,8 +124,22 @@ nmap <Leader>o o<Enter><Esc>ki
 nmap <C-Tab> <C-w>w
 imap <C-Tab> <Esc><C-w>wi
 
+" delete trailing white space document wide
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" toggle between number and relativenumber
+function! NumberToggle()
+    if (&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+nnoremap <leader>n :call NumberToggle()<cr>
+
 if has("autocmd")
-  
+
     " clear all autocmds
     autocmd!
 
@@ -164,30 +179,36 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     " Shortcuts for cmpt166 website
-    " Compile and open locally. 
-    autocmd FileType rst nmap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/SFU/
-                                  \Teaching/CMPT_166_Spring_2013/Website_Source/
-                                  \scripts/compAndOpen %<Enter>
-    
-    autocmd FileType rst imap <buffer> <D-r> <Esc>:w<CR>:!/Users
+    " Compile and open locally.
+    autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
+                                  \SFU/Teaching/CMPT_166_Spring_2013/
+                                  \Website_Source/scripts/compAndOpen %<Enter>
+
+    autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
                                       \/orenshklarsky/Dropbox/SFU/Teaching
                                       \/CMPT_166_Spring_2013/Website_Source
                                       \/scripts/compAndOpen %<Enter>i
 
     " Compile and push changes to website.
-    autocmd FileType rst nmap <buffer> <C-p> :!/Users/orenshklarsky/Dropbox/SFU
-                                      \/Teaching/CMPT_166_Spring_2013/Website_Source
-                                      \/scripts/push %<Enter><Enter>
-    
-    autocmd BufNewFile,BufRead *.pde nmap <buffer> <D-r> :w<CR>:!/Users
+    autocmd FileType rst nnoremap <buffer> <C-p> :!/Users/orenshklarsky/Dropbox/
+                                      \SFU/Teaching/CMPT_166_Spring_2013/
+                                      \Website_Source/scripts/push %<CR><CR>
+
+    autocmd BufNewFile,BufRead *.pde nnoremap <buffer> <D-r> :w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
                                     \/CMPT_166_Spring_2013/Website_Source
                                     \/scripts/loadFileAndRun '%'<CR>
-    autocmd BufNewFile,BufRead *.pde imap <buffer> <D-r> <Esc>:w<CR>:!/Users
+    autocmd BufNewFile,BufRead *.pde inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
                                     \/CMPT_166_Spring_2013/Website_Source
                                     \/scripts/loadFileAndRun '%'<CR>i
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                 python files                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " run
+    autocmd FileType python nnoremap <buffer> <D-r> :w<CR>:!python %<CR>
+    autocmd FileType python inoremap <buffer> <D-r> <Esc>:w<CR>:!python %<CR>
 endif " has("autocmd")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -204,27 +225,33 @@ filetype plugin indent on
 
 " set tex flavour (needed by vim-latex)
 "let g:tex_flavor='latex'
-"
-"" view pdf using default viewer
+
+" view pdf using default viewer
 "let g:Tex_ViewRuleComplete_pdf = 'open $*.pdf'
-"
-""" latex jump forward to next marker
-""imap <C-right> <Plug>IMAP_JumpForward
-""nmap <C-right> <Plug>IMAP_JumpForward
-""xmap <C-right> <Plug>IMAP_JumpForward
+
+"" latex jump forward to next marker
+"inoremap <C-right> <Plug>IMAP_JumpForward
+"nnoremap <C-right> <Plug>IMAP_JumpForward
+"xnoremap <C-right> <Plug>IMAP_JumpForward
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                latex-box                                "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:LatexBox_viewer = "open"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                supertab                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabMappingTabLiteral = "<A-Tab>"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                CommandT                                 "
+"                                commandt                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" CommandT options 
+" CommandT options
 let g:CommandTAcceptSelectionMap = '<C-CR>'
-let g:CommandTAcceptSelectionSplitMap = '<S-C-CR>'
+let g:CommandTAcceptSelectionSplitMap = '<S-CR>'
 let g:CommandTAcceptSelectionVSplitMap = '<CR>'
 let g:CommandTMaxHeight = 16
 let g:CommandTMinHeight = 16
@@ -244,12 +271,20 @@ let g:UltiSnipsEditSplit = 'vertical'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                YankRing                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap "p :YRShow<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                syntastic                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_check_on_open=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_mode_map = { 'mode': 'passive',
+                           \ 'active_filetypes': ['python', 'java'],
+                           \ 'passive_filetypes': ['rst'] }
+let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                   stuff put in before I knew anything                   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

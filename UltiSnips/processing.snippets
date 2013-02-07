@@ -3,3 +3,25 @@ if (${1:cond}) {
     ${2:code}
 }$0
 endsnippet
+
+snippet setup "setup() function" !b
+void setup() {
+    size(${1:width}, ${2:height});
+    $3
+}$0
+endsnippet
+
+snippet draw "draw() function" !b
+void draw() {
+    background(${1:color});
+    $2
+}$0
+endsnippet
+
+snippet st "pushMatrix() and popMatrix()" !b
+pushMatrix();
+    ${1:code}
+popMatrix();
+
+$0
+endsnippet
