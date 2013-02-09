@@ -1,0 +1,17 @@
+snippet "b(egin)?" "begin{} / end{}" !br
+\begin{$1}
+    ${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet "c(ite)?" "citation" !r
+\cite{${1:${VISUAL}}}$0
+endsnippet
+
+snippet \ "macro" !i
+\\${1:macro}{${2:${VISUAL}}}$0
+endsnippet
+
+snippet mb "curly braces in math mode" !i
+\\{$1\\}$0
+endsnippet

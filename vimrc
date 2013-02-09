@@ -5,7 +5,7 @@ set nocompatible
 " Make backspace behave in a sane manner.
 set backspace=indent,eol,start
 
-" swap and backup files
+" swap and backup files. Should update this to deal with other opts
 set backupdir=/Users/orenshklarsky/Documents/auto_saves_and_baks,.,/tmp
 set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 
@@ -14,6 +14,10 @@ set wildmenu               " use wild menu for command completion
 set wildmode=longest:full
 set list
 set listchars=tab:▻▻
+
+set completeopt=longest    " complete options. 
+set completeopt+=menuone
+set completeopt+=preview
 
 set laststatus=2           " always show status line
 set cursorline             " highlight the cursor line
@@ -60,7 +64,7 @@ let mapleader = ","
 
 " better escape
 imap jk <esc>
-cmap jj <esc>
+cmap jk <esc>
 
 " try no arrows for a while
 map <up> <nop>
@@ -74,7 +78,7 @@ imap <left> <nop>
 imap <right> <nop>
 
 " editing and sourcing .vimrc
-nmap <leader>ev :vsp $MYVIMRC<CR>
+nmap <leader>ev :sp $MYVIMRC<CR><C-w>J:resize 10<CR>
 nmap <leader>sv :so $MYVIMRC<CR>
 
 " open vertical or horizontal split and switch
@@ -86,6 +90,20 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" rotate windows clockwise, keeping one vertical and the rest horizontal
+nnoremap <silent> <leader>r :call CycleWindows()<CR>
+
+func! CycleWindows()
+    let oldWin = winnr() " get current window number
+    silent! exe "normal! \<C-w>l" 
+    let newWin = winnr()
+    silent! exe oldWin.'wincmd w'
+    if oldWin == newWin  " we were on the right
+        silent! exe "normal! \<C-w>h"
+    endif  
+    silent! exe "normal! \<C-w>K\<C-w>r\<C-w>k\<C-w>H"
+endfunction
 
 " semi-colon command mode
 nnoremap ; :
@@ -194,14 +212,37 @@ if has("autocmd")
                                       \SFU/Teaching/CMPT_166_Spring_2013/
                                       \Website_Source/scripts/push %<CR><CR>
 
-    autocmd BufNewFile,BufRead *.pde nnoremap <buffer> <D-r> :w<CR>:!/Users
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                            Processing files                             "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    autocmd FileType processing nnoremap <buffer> <D-r> :w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
                                     \/CMPT_166_Spring_2013/Website_Source
                                     \/scripts/loadFileAndRun '%'<CR>
-    autocmd BufNewFile,BufRead *.pde inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
+    autocmd FileType processing inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
                                     \/CMPT_166_Spring_2013/Website_Source
                                     \/scripts/loadFileAndRun '%'<CR>i
+    autocmd FileType processing setlocal completefunc=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                tex files                                "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    autocmd FileType tex setlocal textwidth=80
+    
+    autocmd FileType tex inoremap <buffer> <expr> <Space> |
+           \strpart(getline('.'), col('.')-1, 1) == "$" ? "<Esc>la" : "<Space>"
+
+    augroup keyBindings
+        autocmd FileType tex nnoremap <buffer> <D-r> :Latexmk<CR>
+        autocmd FileType tex nnoremap <buffer> <leader>v :LatexmkView<CR>
+        " <D-m> sets equation env
+        autocmd FileType tex inoremap <buffer> <D-m> $$<Esc>i
+        " <D-e> emphasizes
+        autocmd FileType tex inoremap <buffer> <D-e> \emph{}<Esc>i
+    augroup END
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 python files                            "
@@ -238,12 +279,25 @@ filetype plugin indent on
 "                                latex-box                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:LatexBox_viewer = "open"
-
+let g:LatexBox_latexmk_options = ""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                supertab                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabLongestEnhanced = 1
+let g:SuperTabLongestHighlight = 1
+
+" If we have an omnifunc, use it. If we don't have omnifunc, but have
+" completefunc, use that. No need to set precedence in this case as that is
+" the default
+autocmd FileType *
+ \  if &omnifunc != '' |
+ \      let g:SuperTabDefaultCompletionType = "context" |
+ \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>" |
+ \      let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc'] |
+ \  elseif &completefunc != '' |
+ \      let g:SuperTabDefaultCompletionType = "context" |
+ \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>" |
+ \  endif
 let g:SuperTabMappingTabLiteral = "<A-Tab>"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                commandt                                 "
@@ -271,7 +325,7 @@ let g:UltiSnipsEditSplit = 'vertical'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                YankRing                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+nnoremap <silent> <leader>p :YRShow<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                syntastic                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -282,9 +336,6 @@ let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'passive_filetypes': ['rst'] }
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                   stuff put in before I knew anything                   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
