@@ -18,3 +18,12 @@ Adding a module and updating:
     git add .
     git commit -m "<Comment>"
     git push
+
+Upgrading plugins:
+
+    one plugin:
+    cd ~/.vim/bundle/<plugin-dir>
+    git pull origin master
+
+    all plugins:
+    get submodule foreach git pull origin master
