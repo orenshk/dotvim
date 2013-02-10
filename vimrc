@@ -331,9 +331,9 @@ nnoremap <silent> <leader>p :YRShow<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
-let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['python', 'java'],
-                           \ 'passive_filetypes': ['rst'] }
+"let g:syntastic_mode_map = { 'mode': 'passive',
+                           "\ 'active_filetypes': ['python', 'java'],
+                           "\ 'passive_filetypes': ['rst'] }
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
