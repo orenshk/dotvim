@@ -18,10 +18,6 @@
 	path = bundle/supertab
 	url = https://github.com/ervandew/supertab.git
     ignore = untracked
-[submodule "bundle/syntastic"]
-	path = bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
-    ignore = untracked
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
@@ -37,4 +33,8 @@
 [submodule "bundle/latex-box"]
 	path = bundle/latex-box
 	url = https://github.com/LaTeX-Box-Team/LaTeX-Box.git
+    ignore = untracked
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
     ignore = untracked
