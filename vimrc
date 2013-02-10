@@ -250,6 +250,9 @@ if has("autocmd")
     " run
     autocmd FileType python nnoremap <buffer> <D-r> :w<CR>:!python %<CR>
     autocmd FileType python inoremap <buffer> <D-r> <Esc>:w<CR>:!python %<CR>
+
+    " syntastic custom checker
+    autocmd FileType python so $HOME/.vim/syntax_checkers/my_flake8.vim
 endif " has("autocmd")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -302,14 +305,11 @@ let g:SuperTabMappingTabLiteral = "<A-Tab>"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                commandt                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" CommandT options
 let g:CommandTAcceptSelectionMap = '<C-CR>'
 let g:CommandTAcceptSelectionSplitMap = '<S-CR>'
 let g:CommandTAcceptSelectionVSplitMap = '<CR>'
 let g:CommandTMaxHeight = 16
 let g:CommandTMinHeight = 16
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                UltiSnips                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

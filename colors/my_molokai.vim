@@ -28,6 +28,9 @@ else
     let s:molokai_original = 0
 endif
 
+" Syntastic Colours
+hi SyntasticError guifg=#000000 guibg=#FF0000
+hi SyntasticWarning guifg=#000000 guibg=#FFA500
 
 hi Boolean         guifg=#AE81FF
 hi Character       guifg=#E6DB74
