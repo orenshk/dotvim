@@ -2,6 +2,15 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                pathogen                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+execute pathogen#infect()
+call pathogen#helptags()
+
+" Enable file type detection and do language-dependent indenting.
+filetype plugin indent on
+
 " Make backspace behave in a sane manner.
 set backspace=indent,eol,start
 
@@ -40,7 +49,10 @@ set splitright              " when splitting add new window to the right
 set nowrap                  " don't wrap lines when they go off the edge
 set clipboard+=unnamed      " yanks go to the clipboard as well
 
-" gui stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                gui stuff                                "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
@@ -61,6 +73,9 @@ endif
 
 " set <Leader> to ,
 let mapleader = ","
+
+" open todo file for vim improvements
+nnoremap <leader>vtodo :silent !mvim $HOME/.vim/vimprovements.rst<CR>
 
 " better escape
 imap jk <esc>
@@ -162,14 +177,7 @@ if has("autocmd")
     autocmd!
 
     " save the file on focus lost.
-    autocmd FocusLost * :wa
-
-    " Make backup of vimrc to dropbox after write. Also make a windows
-    " version.
-    autocmd BufWritePost .vimrc w! /Users/orenshklarsky/Dropbox
-                                                       \/vimfiles/nix/.vimrc
-    autocmd BufWritePost .vimrc w! /Users/orenshklarsky/Dropbox
-                                                       \/vimfiles/Windows/_vimrc
+    autocmd FocusLost,InsertLeave * :wa
 
     " Automatic window resizing when external window size changes
     autocmd VimResized * :wincmd =
@@ -231,8 +239,7 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     autocmd FileType tex setlocal textwidth=80
     
-    autocmd FileType tex inoremap <buffer> <expr> <Space> |
-           \strpart(getline('.'), col('.')-1, 1) == "$" ? "<Esc>la" : "<Space>"
+    autocmd FileType tex inoremap <buffer> <expr> $ strpart(getline('.'), col('.')-1, 1) == "$" ? "\<Right>" : "$"
 
     augroup keyBindings
         autocmd FileType tex nnoremap <buffer> <D-r> :Latexmk<CR>
@@ -253,16 +260,11 @@ if has("autocmd")
 
     " syntastic custom checker
     autocmd FileType python so $HOME/.vim/syntax_checkers/my_flake8.vim
+    
+    " tags file
+    autocmd FileType python set tags+=$HOME/.vim/tags/python27.ctags
 endif " has("autocmd")
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                pathogen                                 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-execute pathogen#infect()
-call pathogen#helptags()
-
-" Enable file type detection and do language-dependent indenting.
-filetype plugin indent on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                latex-suite                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

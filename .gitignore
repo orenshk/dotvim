@@ -2,3 +2,5 @@
 *.swp
 tags/
 .netrwhist
+bundle/eclim
+vimprovements.rst
