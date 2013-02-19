@@ -19,12 +19,14 @@ set backupdir=/Users/orenshklarsky/Documents/auto_saves_and_baks,.,/tmp
 set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 
 " General sets
+set guioptions-=r           " don't show the right scrollbar
+set timeoutlen=500
 set wildmenu               " use wild menu for command completion
 set wildmode=longest:full
-set list
+set list                   " Show unprintable characters (space, tab,...)
 set listchars=tab:▻▻
 
-set completeopt=longest    " complete options. 
+set completeopt=longest    " complete options.
 set completeopt+=menuone
 set completeopt+=preview
 
@@ -68,11 +70,23 @@ if &t_Co > 2 || has("gui_running")
   endif
 
   " color scheme. molokai sets background=dark. Remember this if you switch.
-  let colors_name = "my_molokai"
+  set background=dark
+  let colors_name = "solarized"
 endif
 
 " set <Leader> to ,
 let mapleader = ","
+
+" Less obnoxious end of line motion
+nnoremap \ $
+vnoremap \ $
+onoremap \ $
+
+" Enter command mode using ;
+" change forward/backward line searching
+nnoremap ' ;
+nnoremap " ,
+nnoremap ; :
 
 " open todo file for vim improvements
 nnoremap <leader>vtodo :silent !mvim $HOME/.vim/vimprovements.rst<CR>
@@ -109,20 +123,6 @@ nnoremap <C-l> <C-w>l
 " rotate windows clockwise, keeping one vertical and the rest horizontal
 nnoremap <silent> <leader>r :call CycleWindows()<CR>
 
-func! CycleWindows()
-    let oldWin = winnr() " get current window number
-    silent! exe "normal! \<C-w>l" 
-    let newWin = winnr()
-    silent! exe oldWin.'wincmd w'
-    if oldWin == newWin  " we were on the right
-        silent! exe "normal! \<C-w>h"
-    endif  
-    silent! exe "normal! \<C-w>K\<C-w>r\<C-w>k\<C-w>H"
-endfunction
-
-" semi-colon command mode
-nnoremap ; :
-
 " vertical help
 cmap vh vert help
 
@@ -158,7 +158,7 @@ nmap <C-Tab> <C-w>w
 imap <C-Tab> <Esc><C-w>wi
 
 " delete trailing white space document wide
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR><C-o>
 
 " toggle between number and relativenumber
 function! NumberToggle()
@@ -181,6 +181,9 @@ if has("autocmd")
 
     " Automatic window resizing when external window size changes
     autocmd VimResized * :wincmd =
+
+    " Don't continue comment when I break line
+    autocmd FileType * set formatoptions-=r  
 
     " When editing a file, always jump to the last known cursor position.
     " Don't do it when the position is invalid or when inside an event handler
@@ -238,7 +241,7 @@ if has("autocmd")
 "                                tex files                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     autocmd FileType tex setlocal textwidth=80
-    
+
     autocmd FileType tex inoremap <buffer> <expr> $ strpart(getline('.'), col('.')-1, 1) == "$" ? "\<Right>" : "$"
 
     augroup keyBindings
@@ -260,7 +263,7 @@ if has("autocmd")
 
     " syntastic custom checker
     autocmd FileType python so $HOME/.vim/syntax_checkers/my_flake8.vim
-    
+
     " tags file
     autocmd FileType python set tags+=$HOME/.vim/tags/python27.ctags
 endif " has("autocmd")
@@ -303,7 +306,8 @@ autocmd FileType *
  \      let g:SuperTabDefaultCompletionType = "context" |
  \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>" |
  \  endif
-let g:SuperTabMappingTabLiteral = "<A-Tab>"
+
+let g:SuperTabMappingTabLiteral = "<A-S-Tab>"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                commandt                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -319,9 +323,6 @@ let g:CommandTMinHeight = 16
 
 " remap UltiSnips keys
 let g:UltiSnipsExpandTrigger = '<Tab>'
-"let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-"let g:UltiSnipsJumpBackwardTrigger = '<A-Tab>'
-"let g:UltiSnipsListSnippets = '<S-A-Tab>'
 let g:UltiSnipsEditSplit = 'vertical'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -344,3 +345,35 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 " Switch syntax highlighting on
 syntax on
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                Functions                                "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+func! CycleWindows()
+    let oldWin = winnr() " get current window number
+    silent! exe "normal! \<C-w>l"
+    let newWin = winnr()
+    silent! exe oldWin.'wincmd w'
+    if oldWin == newWin  " we were on the right
+        silent! exe "normal! \<C-w>h"
+    endif
+    silent! exe "normal! \<C-w>K\<C-w>r\<C-w>k\<C-w>H"
+endfunction
+
+"let s:numUpdates = 0
+"fun WriteFile()
+    "echom "running"
+    "if s:numUpdates > 5
+        "echo "Writing"
+        "if $buftype == ""
+            ""write
+            "let s:numUpdates = 0
+        "endif
+    "else
+        "let s:numUpdates = s:numUpdates + 1
+        "echo "Updating"
+    "endif
+    "return '%f %h%w%m%r%=%-14(%l,%c%V%) %(%P%)'
+"endf
+"set statusline=%!WriteFile() " custom statusline
