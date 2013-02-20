@@ -4,4 +4,3 @@ if has("gui_macvim")
     map <D-t> :CommandT<CR>
     map <D-m> <nop>
 endif
-
