@@ -73,6 +73,11 @@ if &t_Co > 2 || has("gui_running")
   endif
 endif
 
+if &term == "xterm-256color"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<ESC>]50;CursorShape=0\x7"
+endif
+
 " set <Leader> to ,
 let mapleader = ","
 
