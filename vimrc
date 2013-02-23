@@ -81,6 +81,8 @@ endif
 " set <Leader> to ,
 let mapleader = ","
 
+" unhighlight after search
+nnoremap <Leader><space> :noh<CR>
 " Less obnoxious end of line motion
 nnoremap \ $
 vnoremap \ $
@@ -214,8 +216,8 @@ if has("autocmd")
     " Shortcuts for cmpt166 website
     " Compile and open locally.
     autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
-                                  \SFU/Teaching/CMPT_166_Spring_2013/
-                                  \Website_Source/scripts/compAndOpen %<Enter>
+                          \SFU/Teaching/CMPT_166_Spring_2013/
+                          \Website_Source/scripts/compAndOpen %<Enter><Enter>
 
     autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
                                       \/orenshklarsky/Dropbox/SFU/Teaching
