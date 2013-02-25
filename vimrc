@@ -190,9 +190,17 @@ if has("autocmd")
 
     " clear all autocmds
     autocmd!
+   
+    " save the file on focus lost, entering insert, and 'updatetime'
+    " miliseconds after the last time the cursor moved in insert mode
+    " (non repeating).
+    autocmd FocusLost,InsertLeave,CursorHold,CursorHoldI * :wa
 
-    " save the file on focus lost.
-    autocmd FocusLost,InsertLeave * :wa
+    " make first column a little more visible in solarized dark theme
+    autocmd ColorScheme *
+        \ if &background=='dark' |
+            \ exe "hi! ColorColumn guibg=#005264" |
+        \ endif
 
     " Automatic window resizing when external window size changes
     autocmd VimResized * :wincmd =
