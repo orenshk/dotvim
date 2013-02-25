@@ -57,8 +57,14 @@ set clipboard+=unnamed      " yanks go to the clipboard as well
 
 if &t_Co > 2 || has("gui_running")
   " color scheme. molokai sets background=dark. Remember this if you switch.
+  "let colors_name = "solarized"
+
+  syntax enable
   set background=dark
-  let colors_name = "solarized"
+  colorscheme solarized
+
+  " set toggle background key for solarized to <F1>
+  call togglebg#map("<F1>")
 
   set hlsearch
   set mousehide
@@ -91,7 +97,10 @@ onoremap \ $
 " Enter command mode using ;
 " change forward/backward line searching
 nnoremap ' ;
+vnoremap ' ;
 nnoremap " ,
+vnoremap " ,
+nnoremap ; :
 nnoremap ; :
 
 " open todo file for vim improvements
@@ -344,6 +353,7 @@ let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['python', 'java'],
                            \ 'passive_filetypes': ['rst'] }
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+
 
 syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
