@@ -189,7 +189,7 @@ nnoremap <leader>n :call NumberToggle()<cr>
 if has("autocmd")
 
     " clear all autocmds
-    autocmd!
+    autocmd! 
    
     " save the file on focus lost, entering insert, and 'updatetime'
     " miliseconds after the last time the cursor moved in insert mode
@@ -234,7 +234,7 @@ if has("autocmd")
     " Compile and open locally.
     autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
                           \SFU/Teaching/CMPT_166_Spring_2013/
-                          \Website_Source/scripts/compAndOpen %<Enter><Enter>
+                          \Website_Source/scripts/compAndOpen %<Enter>
 
     autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
                                       \/orenshklarsky/Dropbox/SFU/Teaching
@@ -343,7 +343,6 @@ let g:CommandTMinHeight = 16
 "                                UltiSnips                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
 " remap UltiSnips keys
 let g:UltiSnipsExpandTrigger = '<Tab>'
 let g:UltiSnipsEditSplit = 'vertical'
@@ -379,19 +378,3 @@ func! CycleWindows()
     silent! exe "normal! \<C-w>K\<C-w>r\<C-w>k\<C-w>H"
 endfunction
 
-"let s:numUpdates = 0
-"fun WriteFile()
-    "echom "running"
-    "if s:numUpdates > 5
-        "echo "Writing"
-        "if $buftype == ""
-            ""write
-            "let s:numUpdates = 0
-        "endif
-    "else
-        "let s:numUpdates = s:numUpdates + 1
-        "echo "Updating"
-    "endif
-    "return '%f %h%w%m%r%=%-14(%l,%c%V%) %(%P%)'
-"endf
-"set statusline=%!WriteFile() " custom statusline
