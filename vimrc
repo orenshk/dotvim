@@ -361,6 +361,12 @@ let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'passive_filetypes': ['rst'] }
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                     gundo                                      "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:gundo_close_on_revert=1
+nnoremap <F5> :GundoToggle<CR>
+inoremap <F5> <Esc>:GundoToggle<CR>
 
 syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
