@@ -141,27 +141,6 @@ nnoremap <silent> <leader>r :call CycleWindows()<CR>
 " vertical help
 cmap vh vert help
 
-" Braces autocomplete
-inoremap {    {}<Left>
-inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
-inoremap {<CR> {<CR>}<Esc>O
-inoremap {{   {
-inoremap {}   {}
-
-" Parentheses autocomplete
-inoremap (    ()<Left>
-inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-inoremap (<CR> (<CR>)<Esc>O
-inoremap ((   (
-inoremap ()   ()
-
-" Square brackets autocomplete
-inoremap [    []<Left>
-inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
-inoremap [<CR> [<CR>]<Esc>O<Tab>
-inoremap [[   [
-inoremap []   []
-
 " set colorcolumn to highlight 1st and 81st and onwards columns
 let &colorcolumn=join([1] + range(80, 256), ",")
 
@@ -229,6 +208,9 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                rst only                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    " tell delimitMate to allow nesting `
+    autocmd FileType rst let b:delimitMate_nesting_quotes = ['`']
 
     " Shortcuts for cmpt166 website
     " Compile and open locally.
@@ -319,17 +301,18 @@ let g:SuperTabLongestHighlight = 1
 
 " If we have an omnifunc, use it. If we don't have omnifunc, but have
 " completefunc, use that. No need to set precedence in this case as that is
-" the default
-autocmd FileType *
- \  if &omnifunc != '' |
- \      let g:SuperTabDefaultCompletionType = "context" |
- \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>" |
- \      let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc'] |
- \  elseif &completefunc != '' |
- \      let g:SuperTabDefaultCompletionType = "context" |
- \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>" |
- \  endif
-
+" the defau`t
+if has("autocmd")
+    autocmd FileType *
+     \  if &omnifunc != '' |
+     \      let g:SuperTabDefaultCompletionType = "context" |
+     \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>" |
+     \      let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc'] |
+     \  elseif &completefunc != '' |
+     \      let g:SuperTabDefaultCompletionType = "context" |
+     \      let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>" |
+     \  endif
+endif " has("autocmd")
 let g:SuperTabMappingTabLiteral = "<A-S-Tab>"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                commandt                                 "
@@ -367,6 +350,13 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:gundo_close_on_revert=1
 nnoremap <F5> :GundoToggle<CR>
 inoremap <F5> <Esc>:GundoToggle<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                    delimitMate                                     "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let delimitMate_expand_cr = 1 
+
+imap <C-g>j <Plug>delimitMateJumpMany
 
 syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
