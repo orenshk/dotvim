@@ -168,8 +168,8 @@ nnoremap <leader>n :call NumberToggle()<cr>
 if has("autocmd")
 
     " clear all autocmds
-    autocmd! 
-   
+    autocmd!
+
     " save the file on focus lost, entering insert, and 'updatetime'
     " miliseconds after the last time the cursor moved in insert mode
     " (non repeating).
@@ -232,6 +232,9 @@ if has("autocmd")
 "                            Processing files                             "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+    " tag processing files as if they were java
+    autocmd BufWritePost *.pde :silent !ctags -R --language-force=java --fields=+iaS .
+
     autocmd FileType processing nnoremap <buffer> <D-r> :w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
                                     \/CMPT_166_Spring_2013/Website_Source
@@ -262,6 +265,9 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 python files                            "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " tags
+    autocmd BufWritePost *.py :silent !ctags -R --fields=+iaS .
+
     " run
     autocmd FileType python nnoremap <buffer> <D-r> :w<CR>:!python %<CR>
     autocmd FileType python inoremap <buffer> <D-r> <Esc>:w<CR>:!python %<CR>
@@ -298,10 +304,11 @@ let g:LatexBox_latexmk_options = ""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
+let g:SuperTabClosePreviewOnPopupClose = 1
 
 " If we have an omnifunc, use it. If we don't have omnifunc, but have
 " completefunc, use that. No need to set precedence in this case as that is
-" the defau`t
+" the default
 if has("autocmd")
     autocmd FileType *
      \  if &omnifunc != '' |
