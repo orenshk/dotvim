@@ -185,7 +185,7 @@ if has("autocmd")
     autocmd VimResized * :wincmd =
 
     " Don't continue comment when I break line
-    autocmd FileType * set formatoptions-=r  
+    autocmd FileType * set formatoptions-=r
 
     " When editing a file, always jump to the last known cursor position.
     " Don't do it when the position is invalid or when inside an event handler
@@ -354,7 +354,7 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                    delimitMate                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let delimitMate_expand_cr = 1 
+let delimitMate_expand_cr = 1
 
 imap <C-g>j <Plug>delimitMateJumpMany
 
@@ -363,6 +363,12 @@ imap <C-g>j <Plug>delimitMateJumpMany
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <F4> :TagbarOpen jfc<CR>
 nnoremap <F5> :TagbarToggle<CR>
+
+" expand the window when in GUI vim (tagbar does the checking)
+let g:tagbar_expand = 1
+
+" show tagbar window on the left
+let g:tagbar_left = 1
 
 syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -379,4 +385,3 @@ func! CycleWindows()
     endif
     silent! exe "normal! \<C-w>K\<C-w>r\<C-w>k\<C-w>H"
 endfunction
-
