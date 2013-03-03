@@ -19,7 +19,7 @@ set backupdir=/Users/orenshklarsky/Documents/auto_saves_and_baks,.,/tmp
 set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 
 " General sets
-set guioptions-=r           " don't show the right scrollbar
+set guioptions-=rL          " don't show scrollbars
 set timeoutlen=500
 set wildmenu               " use wild menu for command completion
 set wildmode=longest:full
@@ -154,15 +154,6 @@ imap <C-Tab> <Esc><C-w>wi
 " delete trailing white space document wide
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR><C-o>
 
-" toggle between number and relativenumber
-function! NumberToggle()
-    if (&relativenumber == 1)
-        set number
-    else
-        set relativenumber
-    endif
-endfunc
-
 nnoremap <leader>n :call NumberToggle()<cr>
 
 if has("autocmd")
@@ -265,18 +256,17 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 python files                            "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " tags
-    autocmd BufWritePost *.py :silent !ctags -R --fields=+iaS .
+    " tags (commented out b/c trying jedi + tagbar)
+    "autocmd BufWritePost *.py :silent !ctags -R --fields=+iaS .
 
     " run
     autocmd FileType python nnoremap <buffer> <D-r> :w<CR>:!python %<CR>
     autocmd FileType python inoremap <buffer> <D-r> <Esc>:w<CR>:!python %<CR>
 
-    " syntastic custom checker
-    autocmd FileType python so $HOME/.vim/syntax_checkers/my_flake8.vim
+    " syntastic checker, ignore some errors.
+    autocmd FileType python 
+               \ let g:syntastic_python_flake8_args = '--ignore=E203,E302,E127'
 
-    " tags file
-    autocmd FileType python set tags+=$HOME/.vim/tags/python27.ctags
 endif " has("autocmd")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -362,7 +352,7 @@ imap <C-g>j <Plug>delimitMateJumpMany
 "                                     tagbar                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <F4> :TagbarOpen jfc<CR>
-nnoremap <F5> :TagbarToggle<CR>
+nnoremap <F5> :call MyTagbarToggle()<CR>
 
 " expand the window when in GUI vim (tagbar does the checking)
 let g:tagbar_expand = 1
@@ -374,7 +364,16 @@ syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                Functions                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" toggle between number and relativenumber
+function! NumberToggle()
+    if (&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
 
+" cycle window positions clockwise
 func! CycleWindows()
     let oldWin = winnr() " get current window number
     silent! exe "normal! \<C-w>l"
@@ -385,3 +384,24 @@ func! CycleWindows()
     endif
     silent! exe "normal! \<C-w>K\<C-w>r\<C-w>k\<C-w>H"
 endfunction
+
+" Closing tagbar when vim window right edge is less than g:tagbar_width
+" columns away from right edge of the screen and g:tagbar_expands == 1
+" results in the vim window changing its original position. This restores it.
+let g:tagbarOpen = 0
+let g:winposXY = [0, 0]
+func! MyTagbarToggle()
+    if g:tagbarOpen == 0
+        redir => winposOut
+        silent exec 'winpos'
+        redir END
+        let winposList = split(winposOut)
+        let g:winposXY[0] = winposList[3][:-2]
+        let g:winposXY[1] = winposList[5][:-2]
+    else
+        exec 'winpos' . g:winposXY[0] . ' ' . g:winposXY[1]
+    endif
+
+    let g:tagbarOpen = 1 - g:tagbarOpen
+    silent exec 'TagbarToggle'
+endfunc
