@@ -79,7 +79,10 @@ if &t_Co > 2 || has("gui_running")
   endif
 endif
 
-if &term == "xterm-256color"
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+elseif &term == "xterm-256color"
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<ESC>]50;CursorShape=0\x7"
 endif
@@ -160,6 +163,9 @@ if has("autocmd")
 
     " clear all autocmds
     autocmd!
+
+    " Type z/ to toggle highlighting on/off.
+    nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 
     " save the file on focus lost, entering insert, and 'updatetime'
     " miliseconds after the last time the cursor moved in insert mode
@@ -405,3 +411,25 @@ func! MyTagbarToggle()
     let g:tagbarOpen = 1 - g:tagbarOpen
     silent exec 'TagbarToggle'
 endfunc
+
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+function! AutoHighlightToggle()
+    let @/ = ''
+    if exists('#auto_highlight')
+        au! auto_highlight
+        augroup! auto_highlight
+        setl updatetime=4000
+        echo 'Highlight current word: off'
+        return 0
+    else
+        augroup auto_highlight
+            au!
+            au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+        augroup end
+        setl updatetime=500
+        echo 'Highlight current word: ON'
+        return 1
+    endif
+endfunction
