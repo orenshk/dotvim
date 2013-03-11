@@ -57,7 +57,7 @@ set clipboard+=unnamed      " yanks go to the clipboard as well
 
 if &t_Co > 2 || has("gui_running")
   " color scheme. molokai sets background=dark. Remember this if you switch.
-  "let colors_name = "solarized"
+  "let colors_name = "molokai"
 
   syntax enable
   set background=dark
@@ -75,7 +75,7 @@ if &t_Co > 2 || has("gui_running")
   elseif has("gui_win32")
       :set guifont=Luxi_Mono:h12:cANSI
   elseif has("gui_macvim")
-      :set guifont=Monaco:h12
+      :set guifont=Menlo_Bold:h12
   endif
 endif
 
@@ -92,6 +92,7 @@ let mapleader = ","
 
 " unhighlight after search
 nnoremap <Leader><space> :noh<CR>
+
 " Less obnoxious end of line motion
 nnoremap \ $
 vnoremap \ $
@@ -352,8 +353,7 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let delimitMate_expand_cr = 1
 
-imap <C-g>j <Plug>delimitMateJumpMany
-
+imap <C-g><C-g> <Plug>delimitMateJumpMany
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                     tagbar                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
