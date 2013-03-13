@@ -79,6 +79,7 @@ if &t_Co > 2 || has("gui_running")
   endif
 endif
 
+" Have cursor change shape if running from terminal/tmux 
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -89,6 +90,9 @@ endif
 
 " set <Leader> to ,
 let mapleader = ","
+
+" map ctrl-a to ctrl-w to get me consistent with tmux pane switching
+nnoremap <C-a> <C-w>
 
 " unhighlight after search
 nnoremap <Leader><space> :noh<CR>
@@ -132,12 +136,6 @@ nmap <leader>sv :so $MYVIMRC<CR>
 " open vertical or horizontal split and switch
 nnoremap <leader>v :vne<CR>
 nnoremap <leader>h <C-w>n
-
-" Move through splits
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
 " rotate windows clockwise, keeping one vertical and the rest horizontal
 nnoremap <silent> <leader>r :call CycleWindows()<CR>
