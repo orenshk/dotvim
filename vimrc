@@ -93,6 +93,10 @@ let mapleader = ","
 
 " map ctrl-a to ctrl-w to get me consistent with tmux pane switching
 nnoremap <C-a> <C-w>
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
 
 " unhighlight after search
 nnoremap <Leader><space> :noh<CR>
@@ -148,10 +152,6 @@ let &colorcolumn=join([1] + range(80, 256), ",")
 
 " make two new lines and move cursor up one in normal mode
 nmap <Leader>o o<Enter><Esc>ki
-
-" make switching through splits more like tabbing
-nmap <C-Tab> <C-w>w
-imap <C-Tab> <Esc><C-w>wi
 
 " delete trailing white space document wide
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR><C-o>
@@ -229,7 +229,7 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     " tag processing files as if they were java
-    autocmd BufWritePost *.pde :silent !ctags -R --language-force=java --fields=+iaS .
+    autocmd BufWritePost *.pde :silent !start ctags -R --language-force=java --fields=+iaS .
 
     autocmd FileType processing nnoremap <buffer> <D-r> :w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
