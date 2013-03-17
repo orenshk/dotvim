@@ -98,6 +98,9 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 
+" Toggle cursorcolumn 
+nmap <Leader>cc :set cursorcolumn!<CR>
+
 " unhighlight after search
 nnoremap <Leader><space> :noh<CR>
 
@@ -207,7 +210,7 @@ if has("autocmd")
 
     " tell delimitMate to allow nesting `
     autocmd FileType rst let b:delimitMate_nesting_quotes = ['`']
-
+    
     " Shortcuts for cmpt166 website
     " Compile and open locally.
     autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
@@ -229,7 +232,8 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     " tag processing files as if they were java
-    autocmd BufWritePost *.pde :silent !start ctags -R --language-force=java --fields=+iaS .
+    autocmd BufWritePost *.pde :silent !ctags -R --language-force=java
+                                              \  --fields=+iaS . &
 
     autocmd FileType processing nnoremap <buffer> <D-r> :w<CR>:!/Users
                                     \/orenshklarsky/Dropbox/SFU/Teaching
