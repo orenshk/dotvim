@@ -19,7 +19,8 @@ set backupdir=/Users/orenshklarsky/Documents/auto_saves_and_baks,.,/tmp
 set directory=.,/Users/orenshklarsky/Documents/auto_saves_and_baks,/tmp
 
 " General sets
-set guioptions-=rL          " don't show scrollbars
+set updatetime=1000        " update things a little more frequently
+set guioptions-=rL         " don't show scrollbars
 set timeoutlen=500
 set wildmenu               " use wild menu for command completion
 set wildmode=longest:full
@@ -99,7 +100,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 
 " Toggle cursorcolumn 
-nmap <Leader>cc :set cursorcolumn!<CR>
+nmap <Leader>xc :set cursorcolumn!<CR>
 
 " unhighlight after search
 nnoremap <Leader><space> :noh<CR>
@@ -121,8 +122,12 @@ nnoremap ; :
 " open todo file for vim improvements
 nnoremap <leader>vtodo :silent !mvim $HOME/.vim/vimprovements.rst<CR>
 
-" better escape
+" better escape in insert mode.
+imap jj <esc>
 imap jk <esc>
+imap kk <esc>
+
+" better escape in command mode
 cmap jk <esc>
 
 " try no arrows for a while
@@ -172,7 +177,7 @@ if has("autocmd")
     " save the file on focus lost, entering insert, and 'updatetime'
     " miliseconds after the last time the cursor moved in insert mode
     " (non repeating).
-    autocmd FocusLost,InsertLeave,CursorHold,CursorHoldI * :wa
+    autocmd FocusLost,CursorHold,CursorHoldI * :wa
 
     " make first column a little more visible in solarized dark theme
     autocmd ColorScheme *
@@ -253,13 +258,28 @@ if has("autocmd")
     autocmd FileType tex inoremap <buffer> <expr> $ strpart(getline('.'), col('.')-1, 1) == "$" ? "\<Right>" : "$"
 
     augroup keyBindings
+        au!
         autocmd FileType tex nnoremap <buffer> <D-r> :Latexmk<CR>
-        autocmd FileType tex nnoremap <buffer> <leader>v :LatexmkView<CR>
+        autocmd FileType tex nnoremap <buffer> <leader>v :LatexView<CR>
         " <D-m> sets equation env
         autocmd FileType tex inoremap <buffer> <D-m> $$<Esc>i
         " <D-e> emphasizes
         autocmd FileType tex inoremap <buffer> <D-e> \emph{}<Esc>i
     augroup END
+
+    " close quickfix if it's the last window.
+    augroup QFCLose
+        autocmd!
+        autocmd WinEnter * if winnr('$') == 1 
+                       \   && getbufvar(winbufnr(winnr()), 
+                                          \  "&buftype") == "quickfix"|q|endif
+    augroup END 
+
+    augroup QFCloseOnLeave
+        autocmd!
+        autocmd WinLeave * if getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+    augroup END
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
