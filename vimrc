@@ -80,7 +80,7 @@ if &t_Co > 2 || has("gui_running")
   endif
 endif
 
-" Have cursor change shape if running from terminal/tmux 
+" Have cursor change shape if running from terminal/tmux
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -99,7 +99,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 
-" Toggle cursorcolumn 
+" Toggle cursorcolumn
 nmap <Leader>xc :set cursorcolumn!<CR>
 
 " unhighlight after search
@@ -171,6 +171,20 @@ if has("autocmd")
     " clear all autocmds
     autocmd!
 
+
+    " close quickfix if it's the last window.
+    augroup QFCLose
+        autocmd!
+        autocmd WinEnter * if winnr('$') == 1
+                       \   && getbufvar(winbufnr(winnr()),
+                                          \  "&buftype") == "quickfix"|q|endif
+    augroup END
+
+    augroup QFCloseOnLeave
+        autocmd!
+        autocmd WinLeave * if getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+    augroup END
+
     " Type z/ to toggle highlighting on/off.
     nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
 
@@ -215,7 +229,7 @@ if has("autocmd")
 
     " tell delimitMate to allow nesting `
     autocmd FileType rst let b:delimitMate_nesting_quotes = ['`']
-    
+
     " Shortcuts for cmpt166 website
     " Compile and open locally.
     autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
@@ -267,21 +281,6 @@ if has("autocmd")
         autocmd FileType tex inoremap <buffer> <D-e> \emph{}<Esc>i
     augroup END
 
-    " close quickfix if it's the last window.
-    augroup QFCLose
-        autocmd!
-        autocmd WinEnter * if winnr('$') == 1 
-                       \   && getbufvar(winbufnr(winnr()), 
-                                          \  "&buftype") == "quickfix"|q|endif
-    augroup END 
-
-    augroup QFCloseOnLeave
-        autocmd!
-        autocmd WinLeave * if getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
-    augroup END
-
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 python files                            "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -293,7 +292,7 @@ if has("autocmd")
     autocmd FileType python inoremap <buffer> <D-r> <Esc>:w<CR>:!python %<CR>
 
     " syntastic checker, ignore some errors.
-    autocmd FileType python 
+    autocmd FileType python
                \ let g:syntastic_python_flake8_args = '--ignore=E203,E302,E127'
 
 endif " has("autocmd")
