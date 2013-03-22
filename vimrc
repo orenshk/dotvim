@@ -91,6 +91,7 @@ endif
 
 " set <Leader> to ,
 let mapleader = ","
+let maplocalleader = ","
 
 " map ctrl-a to ctrl-w to get me consistent with tmux pane switching
 nnoremap <C-a> <C-w>
