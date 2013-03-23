@@ -277,7 +277,7 @@ if has("autocmd")
         autocmd FileType tex nnoremap <buffer> <D-r> :Latexmk<CR>
         autocmd FileType tex nnoremap <buffer> <leader>v :LatexView<CR>
         " <D-m> sets equation env
-        autocmd FileType tex imap <buffer> <D-m> $$<Tab>
+        autocmd FileType tex imap <buffer> <D-m> mm<Tab>
         " <D-e> emphasizes
         autocmd FileType tex inoremap <buffer> <D-e> em<Tab>
     augroup END
