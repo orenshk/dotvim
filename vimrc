@@ -93,6 +93,10 @@ endif
 let mapleader = ","
 let maplocalleader = ","
 
+" Enter and S-Enter in normal mode insert lines below and above, respectively.
+nmap <CR> o<Esc>
+nmap <S-CR> O<Esc>
+
 " map ctrl-a to ctrl-w to get me consistent with tmux pane switching
 nnoremap <C-a> <C-w>
 nnoremap <C-h> <C-w>h
@@ -192,7 +196,7 @@ if has("autocmd")
     " save the file on focus lost, entering insert, and 'updatetime'
     " miliseconds after the last time the cursor moved in insert mode
     " (non repeating).
-    autocmd FocusLost,CursorHold,CursorHoldI * :wa
+    autocmd FocusLost,CursorHold,CursorHoldI * :silent wa
 
     " make first column a little more visible in solarized dark theme
     autocmd ColorScheme *
@@ -270,7 +274,7 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     autocmd FileType tex setlocal textwidth=80
 
-    autocmd FileType tex inoremap <buffer> <expr> $ strpart(getline('.'), col('.')-1, 1) == "$" ? "\<Right>" : "$"
+    "autocmd FileType tex inoremap <buffer> <expr> $ strpart(getline('.'), col('.')-1, 1) == "$" ? "\<Right>" : "$"
 
     augroup keyBindings
         au!
@@ -281,6 +285,10 @@ if has("autocmd")
         " <D-e> emphasizes
         autocmd FileType tex inoremap <buffer> <D-e> em<Tab>
     augroup END
+
+    autocmd FileType tex let b:delimitMate_quotes = "\" ' ` \$"
+    autocmd FileType tex let b:delimitMate_smart_matchpairs = '^\%(\w\|\!\|£\|_\|["'']\s*\S\)'
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 python files                            "
@@ -374,7 +382,6 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 "                                    delimitMate                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let delimitMate_expand_cr = 1
-
 imap <C-g><C-g> <Plug>delimitMateJumpMany
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                     tagbar                                     "
