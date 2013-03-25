@@ -1,3 +1,6 @@
+
+This is a copy of https://bitbucket.org/kovisoft/slimv/
+
 --------------------------------------------------------------------------------
 slimv.vim
 --------------------------------------------------------------------------------
@@ -12,8 +15,6 @@ Tamas Kovacs
 --------------------------------------------------------------------------------
 Description
 --------------------------------------------------------------------------------
-
-This is a copy of https://bitbucket.org/kovisoft/slimv/
 
 Slimv is a SWANK client for Vim, similarly to SLIME for Emacs. SWANK is a TCP server for Emacs, which runs a Common Lisp, Clojure or Scheme REPL and provides a socket interface for evaluating, compiling, debugging, profiling lisp code. The SWANK server is embedded in Slimv, but you can also use your own SWANK installation.
 
