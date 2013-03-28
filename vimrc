@@ -11,6 +11,10 @@ call pathogen#helptags()
 " Enable file type detection and do language-dependent indenting.
 filetype plugin indent on
 
+" a plugin vimhome.vim that contains the line
+" let $VIMHOME=expand('<sfile>:p:h:h:h:h')
+" to set vimhome. Doesn't really belong here, but now it's documented.
+
 " Make backspace behave in a sane manner.
 set backspace=indent,eol,start
 
@@ -88,6 +92,10 @@ elseif &term == "xterm-256color"
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<ESC>]50;CursorShape=0\x7"
 endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                  Mappings                                  "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " set <Leader> to ,
 let mapleader = ","
@@ -274,8 +282,6 @@ if has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     autocmd FileType tex setlocal textwidth=80
 
-    "autocmd FileType tex inoremap <buffer> <expr> $ strpart(getline('.'), col('.')-1, 1) == "$" ? "\<Right>" : "$"
-
     augroup keyBindings
         au!
         autocmd FileType tex nnoremap <buffer> <D-r> :Latexmk<CR>
@@ -283,12 +289,11 @@ if has("autocmd")
         " <D-m> sets equation env
         autocmd FileType tex imap <buffer> <D-m> mm<Tab>
         " <D-e> emphasizes
-        autocmd FileType tex inoremap <buffer> <D-e> em<Tab>
+        autocmd FileType tex imap <buffer> <D-e> em<Tab>
     augroup END
 
     autocmd FileType tex let b:delimitMate_quotes = "\" ' ` \$"
     autocmd FileType tex let b:delimitMate_smart_matchpairs = '^\%(\w\|\!\|£\|_\|["'']\s*\S\)'
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 python files                            "
@@ -321,11 +326,18 @@ endif " has("autocmd")
 "nnoremap <C-right> <Plug>IMAP_JumpForward
 "xnoremap <C-right> <Plug>IMAP_JumpForward
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                   slimv                                    "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:slimv_keybindings=2
+let g:slimv_simple_compl=1
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                latex-box                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:LatexBox_viewer = "open"
 let g:LatexBox_latexmk_options = ""
+let g:tex_flavor='latex'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                supertab                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
