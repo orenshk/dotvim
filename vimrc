@@ -133,7 +133,7 @@ nnoremap ; :
 nnoremap ; :
 
 " open todo file for vim improvements
-nnoremap <leader>vtodo :silent !mvim $HOME/.vim/vimprovements.rst<CR>
+nnoremap <leader>vtodo :silent !mvim $VIMHOME/vimprovements.rst<CR>
 
 " better escape in insert mode.
 imap jj <esc>
@@ -330,7 +330,11 @@ endif " has("autocmd")
 "                                   slimv                                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:slimv_keybindings=2
-let g:slimv_simple_compl=1
+if has("autocmd")
+    autocmd BufRead *.lisp let g:slimv_keybindings= 0
+    autocmd FileType lisp let g:slimv_simple_compl=1
+    autocmd FileType lisp let g:slimv_swank_cmd='!$VIMHOME/bundle/slimv/myswankcmd.sh'
+endif " has("autocmd")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                latex-box                                "
