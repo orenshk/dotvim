@@ -341,6 +341,7 @@ endif " has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:LatexBox_viewer = "open"
 let g:LatexBox_latexmk_options = ""
+let g:LatexBox_quickfix = 0
 let g:tex_flavor='latex'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                supertab                                 "
@@ -478,3 +479,10 @@ function! AutoHighlightToggle()
         return 1
     endif
 endfunction
+
+if has("autocmd") && exists("+omnifunc")            
+  autocmd Filetype *
+    \   if &omnifunc == "" |
+    \     setlocal omnifunc=syntaxcomplete#Complete |
+    \   endif
+endif
