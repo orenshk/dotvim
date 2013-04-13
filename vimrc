@@ -193,10 +193,10 @@ if has("autocmd")
                                           \  "&buftype") == "quickfix"|q|endif
     augroup END
 
-    augroup QFCloseOnLeave
-        autocmd!
-        autocmd WinLeave * if getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
-    augroup END
+    "augroup QFCloseOnLeave
+        "autocmd!
+        "autocmd WinLeave * if getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+    "augroup END
 
     " Type z/ to toggle highlighting on/off.
     nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
@@ -245,14 +245,14 @@ if has("autocmd")
 
     " Shortcuts for cmpt166 website
     " Compile and open locally.
-    autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
-                          \SFU/Teaching/CMPT_166_Spring_2013/
-                          \Website_Source/scripts/compAndOpen %<Enter>
+    "autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
+                          "\SFU/Teaching/CMPT_166_Spring_2013/
+                          "\Website_Source/scripts/compAndOpen %<Enter>
 
-    autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
-                                      \/orenshklarsky/Dropbox/SFU/Teaching
-                                      \/CMPT_166_Spring_2013/Website_Source
-                                      \/scripts/compAndOpen %<Enter>i
+    "autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
+                                      "\/orenshklarsky/Dropbox/SFU/Teaching
+                                      "\/CMPT_166_Spring_2013/Website_Source
+                                      "\/scripts/compAndOpen %<Enter>i
 
     " Compile and push changes to website.
     autocmd FileType rst nnoremap <buffer> <C-p> :!/Users/orenshklarsky/Dropbox/
@@ -400,6 +400,9 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let delimitMate_expand_cr = 1
 imap <C-g><C-g> <Plug>delimitMateJumpMany
+if has("autocmd")
+    autocmd FileType lisp let g:delimitMate_quotes="\""
+endif 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                     tagbar                                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
