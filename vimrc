@@ -106,6 +106,7 @@ nmap <CR> o<Esc>
 nmap <S-CR> O<Esc>
 
 " map ctrl-a to ctrl-w to get me consistent with tmux pane switching
+nnoremap <C-z> <C-a>
 nnoremap <C-a> <C-w>
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
@@ -175,7 +176,7 @@ let &colorcolumn=join([1] + range(80, 256), ",")
 nmap <Leader>o o<Enter><Esc>ki
 
 " delete trailing white space document wide
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR><C-o>
+nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR><C-o>:noh<CR>
 
 nnoremap <leader>n :call NumberToggle()<cr>
 
@@ -243,16 +244,16 @@ if has("autocmd")
     " tell delimitMate to allow nesting `
     autocmd FileType rst let b:delimitMate_nesting_quotes = ['`']
 
-    " Shortcuts for cmpt166 website
-    " Compile and open locally.
-    "autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
-                          "\SFU/Teaching/CMPT_166_Spring_2013/
-                          "\Website_Source/scripts/compAndOpen %<Enter>
+     "Shortcuts for cmpt166 website
+     "Compile and open locally.
+    autocmd FileType rst nnoremap <buffer> <D-r> :!/Users/orenshklarsky/Dropbox/
+                          \SFU/Teaching/CMPT_166_Spring_2013/
+                          \Website_Source/scripts/compAndOpen %<Enter>
 
-    "autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
-                                      "\/orenshklarsky/Dropbox/SFU/Teaching
-                                      "\/CMPT_166_Spring_2013/Website_Source
-                                      "\/scripts/compAndOpen %<Enter>i
+    autocmd FileType rst inoremap <buffer> <D-r> <Esc>:w<CR>:!/Users
+                                      \/orenshklarsky/Dropbox/SFU/Teaching
+                                      \/CMPT_166_Spring_2013/Website_Source
+                                      \/scripts/compAndOpen %<Enter>i
 
     " Compile and push changes to website.
     autocmd FileType rst nnoremap <buffer> <C-p> :!/Users/orenshklarsky/Dropbox/
