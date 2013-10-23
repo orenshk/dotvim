@@ -416,6 +416,7 @@ let g:tagbar_expand = 1
 " show tagbar window on the left
 let g:tagbar_left = 1
 
+
 syntax on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                Functions                                "
