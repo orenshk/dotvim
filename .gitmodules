@@ -2,10 +2,6 @@
 	path = bundle/command-t
 	url = git://git.wincent.com/command-t.git
     ignore = untracked
-[submodule "bundle/ultisnips"]
-	path = bundle/ultisnips
-	url = https://github.com/SirVer/ultisnips
-    ignore = untracked
 [submodule "bundle/processing"]
 	path = bundle/processing
 	url = http://github.com/sophacles/vim-processing.git
