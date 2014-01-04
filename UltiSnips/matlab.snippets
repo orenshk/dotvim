@@ -1,0 +1,31 @@
+snippet funcr "function with return value" !b
+function ${1:output}${2: = }${3:func_name}(${4:params})
+	$0
+end
+endsnippet
+
+snippet func "function no return" !b
+function ${1:func_name}(${4:params})
+	$0
+end
+endsnippet
+
+snippet for "for loop" !
+for ${1:var_name} = ${2:s}:${3:e}
+	$0
+end
+endsnippet
+
+snippet if "if block" !
+if (${1:cond})
+	$0
+end
+endsnippet
+
+snippet sprintf "sprintf" !
+sprintf(${1:str}, ${2:vals});$0
+endsnippet
+
+snippet aib "assignin" !
+assignin('base', '${1:base_name}', $1);$0
+endsnippet

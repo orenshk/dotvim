@@ -1,7 +1,3 @@
-[submodule "bundle/command-t"]
-	path = bundle/command-t
-	url = git://git.wincent.com/command-t.git
-    ignore = untracked
 [submodule "bundle/processing"]
 	path = bundle/processing
 	url = http://github.com/sophacles/vim-processing.git
